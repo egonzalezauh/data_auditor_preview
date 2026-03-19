@@ -1,8 +1,6 @@
 import streamlit as st
 from src.data_loader import load_csv
 from src.analysis import perform_individual_analysis
-from src.join_simulator import run_join_simulator
-from src.recommendations import run_recommendations_engine
 
 st.set_page_config(page_title="Data Auditor Pro", layout="wide")
 
