@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Mac / Windows files
+.DS_Store
+Thumbs.db
+
+# Optional Data (Evitar subir Data Sets con info personal/financiera)
+*.csv
+*.xlsx
+*.db
+*.sqlite
+*.pdf
+
+# Streamlit
+.streamlit/
