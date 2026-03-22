@@ -8,9 +8,10 @@ def perform_individual_analysis(df, filename):
     st.header("Análisis Individual de la Tabla")
     st.markdown("---")
     
-    tab_salud, tab_nulos, tab_metricas, tab_categorias, tab_dimensional = st.tabs([
+    tab_salud, tab_nulos, tab_repetidos, tab_metricas, tab_categorias, tab_dimensional = st.tabs([
         "🩺 Resumen y Salud", 
         "⚠️ Análisis de Nulos", 
+        "🔁 Valores Repetidos",
         "🔢 Métricas y Fechas", 
         "📊 Detección/Categorías", 
         "🧩 Modelo Dimensional"
@@ -32,6 +33,21 @@ def perform_individual_analysis(df, filename):
             st.warning(f"Se encontraron valores nulos en {len(null_df)} columnas.")
             st.dataframe(null_df.style.format({'Porcentaje (%)': '{:.2f}%'}), use_container_width=True)
             
+    with tab_repetidos:
+        st.markdown("### 🔁 Análisis de Valores Repetidos")
+        st.write("Esta tabla indica si existen o no valores duplicados (repetidos) en cada una de las columnas individualmente, excluyendo datos nulos.")
+        
+        rep_data = []
+        for col in df.columns:
+            # Drop nans so that multiple nans are not considered as duplicated values meant for this analysis
+            has_repeats = df[col].dropna().duplicated().any()
+            rep_data.append({
+                "Columna": col,
+                "¿Tiene valores repetidos?": "Sí" if has_repeats else "No"
+            })
+            
+        st.dataframe(pd.DataFrame(rep_data).set_index("Columna"), use_container_width=True)
+
     with tab_metricas:
         st.markdown("### 🔢 Perfilado de Métricas Continuas")
         numeric_cols = df.select_dtypes(include=['number']).columns
